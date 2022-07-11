@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javascript Quiz App</title>
+    <link rel="stylesheet" href="style.css">
+   
+
+</head>
+<body>
+    <!-- Header Container -->
+    <div class="container">
+        <div class="row">
+            <div>
+                <button class="btn" id="view-score">
+                    View High score
+                </button>
+            </div>
+            <!-- Timer -->
+            <div class="timer" id="timer">
+                <p class="show-timer">Time: 100s</p>
+            </div>
+
+        </div>
+    </div>
+    <!-- main container/ close after click start-->
+    <main class="main">
+        <section class="intro">
+            <div class="row">
+                <h1>Welcome to the Javascript Coding Quiz Challenge!</h1>
+                <p>Start to answer following questions before the timer running out!</p>
+                <button class="btn" id="start">Start</button>
+            </div>
+        </section>
+
+        <!--section for questions and answers show after start button  -->
+        <section id="questions">
+            <div class="row">
+                <h2 id="question">Question:</h2>
+                <ul class="answers">
+                    <li id="answer-list">
+                        <button class="btn" id="answer1">Answer1</button>
+                    </li>
+                    <li id="answer-list">
+                        <button class="btn" id="answer2">Answer2</button>
+                    </li>
+                    <li id="answer-list">
+                        <button class="btn" id="answer3">Answer3</button>
+                    </li>
+                    <li id="answer-list">
+                        <button class="btn" id="answer4">Answer4</button>
+                    </li>
+                </ul>
+                <div class="show-result">
+                    <hr>
+                    <!-- showing result by JS -->
+                </div>
+            </div>
+    
+        </section>
+
+        <!--  final section for score and name-->
+        <section id="final">
+            <div class="row">
+                <h2>ALL DONE! Great!</h2>
+                <p>Your final score is: <span id="score">0</span></p>
+                <p>Enter Your Initials: <span><input type="text" id="initials"></span>
+                    <button class="btn" id="submit">Submit</button>
+                </p>
+            </div>
+        </section>
+
+        <!-- Hight Score section -->
+        <section id="hight-scores">
+            <div class="row">
+                <h2>High Scores</h2>
+                <!-- there are desc list for scores -->
+                <ol id="scores-list">
+                    <li></li>
+                </ol>
+                <button id="go-back" class=" btn btn-go-back">GO BACK</button>
+                <button id="clearscores" class="btn btn-clear">Clear Scores</button>
+            </div>
+        </section>
+    </main>
+
+<!-- footer -->
+<div class="footer">
+    <p>Made by kaihuan with heart.</p>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
