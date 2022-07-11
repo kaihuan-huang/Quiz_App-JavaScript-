@@ -8,9 +8,12 @@ var viewHighScore = document.querySelector("#view-score");
 var introEl = document.querySelector(".intro");
 
 //questions
-var qusetionsEl = document.querySelector("#qusetions");
+var questionsEl = document.querySelector("#qusetions");
 var questionEl = document.querySelector("#question");
 let questionCount = 0;
+
+var showResult = document.querySelector("#show-result");
+let scoreList = [];
 
 //buttons
 var StartBtn = document.querySelector("#start");
@@ -66,10 +69,12 @@ function setTime(){
         secondsLeft--;
         timeEl.textContent = secondsLeft;
 
-        if(secondsLeft === 0){
+        if(secondsLeft === 0 || questionCount === questions.length){
             // Stops execution of action at set interval
             clearInterval(timerInterval);
+            questionsEl.style.display = "none";
             
+
         }
 
     }, 1000);
@@ -86,10 +91,40 @@ function startQuiz(){
 }
 
 console.log(questions.length);
-//
-function setQuestion(){
 
+//function to set questions: to count && show next questions
+function setQuestion(id){
+    if( id < questions.length){
+        questionEl.textContent = questions[id].question;
+        ans1Btn.textContent = questions[id].answers[0];
+        ans2Btn.textContent = questions[id].answers[1];
+        ans3Btn.textContent = questions[id].answers[2];
+        ans4Btn.textContent = questions[id].answers[3];
+        
+    }
+}
 
+//function to check answer 
+function checkAnswer(event){
+    event.preventDefault();
+
+    //append show-result
+    showResult.style.display = "block";
+    let show = document.createElement("show");
+    show.appendChild(show);
+
+    //answer checker
+    if (questions[questionCount].correctAnswer === event.target.value){
+        show.textContent = "Correct!";
+    }else {
+        show.textContent = "Wrong!";
+    }
+    //increament questions
+    if (questionCount < questions.length){
+        questionCount++;
+    }
+    //call
+    setQuestion(questionCount);
 }
 
 //increment the questions
@@ -122,6 +157,6 @@ clearBtn.addEventListener("click", clearScore);
 
 //view high score button
 viewHighScore.addEventListener("click", function(){
-    
+
 })
 
