@@ -113,6 +113,11 @@ function checkAnswer(event){
     let show = document.createElement("show");
     show.appendChild(show);
 
+    //time-out 
+    setTimeOut(function(){
+        showResult.style.display = "none";
+    }, 1000);
+
     //answer checker
     if (questions[questionCount].correctAnswer === event.target.value){
         show.textContent = "Correct!";
