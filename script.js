@@ -2,6 +2,7 @@
 //time && scores
 var timeEl = document.getElementById("show-timer");
 var secondsLeft = 100;
+var timer;
 var viewHighScoreBtn = document.getElementById("view-score");
 
 //Start
@@ -16,11 +17,12 @@ var showResult = document.getElementById("show-result");
 
 //Initial score
 var score = 0;
-var initialInput = document.getElementById("initials")
+var scoreEl = document.getElementById("score");
+var initialInput = document.getElementById("initials");
 
 
 //scores-list array
-var scoreList = document.getElementById("scores-list");
+var scoreListEl = document.getElementById("scores-list");
 var clearScore = document.getElementById("clearscores");
 var scoreList = [];
 
@@ -30,7 +32,7 @@ var viewHighScoreEl = document.querySelector("#high-scores");
 
 
 //buttons
-var StartBtn = document.getElementById("start");
+var startBtn = document.getElementById("start");
 var ansBtn = document.querySelectorAll(".ansBtn");
 var ans1Btn = document.getElementById("answer1");
 var ans2Btn = document.getElementById("answer2");
@@ -80,12 +82,13 @@ const questions = [ // array of objects
 //functions:
 //timer
 function setTime() {
-    let timerInterval = setInterval(function () {
+        timerInterval = setInterval(function () {
         secondsLeft--;
         timeEl.textContent = "Time: "+secondsLeft;
 
         if (secondsLeft === 0 || questionCount === questions.length) {
             clearInterval(timerInterval);
+            introEl.setAttribute("style", "display: none");
             questionsEl.setAttribute("style", "display: none");
             finalEl.setAttribute("style", "display: block");
             scoreEl.textContent = secondsLeft;
@@ -108,7 +111,7 @@ console.log(questions.length);
 
 //function to set questions: to count && show next questions
 function setQuestions(id){
-    if (id < questions.length-1){
+    if (id < questions.length-1 ){
         questionEl.textContent = questions[id].question;
         ans1Btn.textContent = questions[id].answers[0];
         ans2Btn.textContent = questions[id].answers[1];
@@ -118,14 +121,13 @@ function setQuestions(id){
     }
     
 }
-
-
 //function to check answer 
 function checkAnswer(event){
     event.preventDefault();
 
     console.log( event.target.getAttribute("data-value"));
     //append show-result
+    
     showResult.setAttribute("style", "display: block");
     let result = document.createElement("div");
     
@@ -142,6 +144,11 @@ function checkAnswer(event){
     //increament questions
     if (questionCount < questions.length){
         questionCount++;
+    }else{
+        //stop timer
+        clearInterval(timer);
+        score = secondsLeft;
+        scoreEl.textContent = score;
     }
 
 
@@ -149,18 +156,16 @@ function checkAnswer(event){
     //call function to bring any ansBtn is cliked
     setQuestions(questionCount);
 }
-
-
 function addScore(event){
     event.preventDefault();
 
     finalEl.setAttribute("style", "display: none");
-    viewHighScore.setAttribute("style", "display: block");
+    viewHighScoreEl.setAttribute("style", "display: block");
 
     var init = initialInput.value.toUpperCase();
     scoreList.push({ initials: init, score: secondsLeft });
 
-        //sort scores
+        //sort max scores
     scoreList = scoreList.sort((a , b)=>{
         if (a.score < b.score){
             return 1;
@@ -169,11 +174,11 @@ function addScore(event){
         }
     });
 
-    scoreList .innerHTML = " ";
+    scoreList.innerHTML = " ";
     for (var i = 0; i < scoreList.length; i++ ){
         var li = document.createElement("li");
         li.textContent = `${scoreList[i].initials} : ${ scoreList[i].score}`;
-        scoreList .append(li);
+        scoreListEl.append(li);
     }
 
     //Add to local storage
@@ -184,8 +189,8 @@ function addScore(event){
 
 //clear score
 function clearScore(){
-    localStorage.clear();
-    scoreList.textContent = " ";
+    scoreList.clear();
+    scoreListEl.textContent = " ";
 }
 
 function storeScores(){
@@ -206,7 +211,7 @@ function displayScore(){
 
 //Eventlisteners
 //start quiz && timer && first question
-StartBtn.addEventListener("click", startQuiz);
+startBtn.addEventListener("click", startQuiz);
 
 //ansBtn
 ansBtn.forEach( item =>{
@@ -218,7 +223,8 @@ SubmitBtn.addEventListener("click", addScore);
 
 //go back button
 goBackBtn.addEventListener("click", function(){
-    viewHighScore.style.display = "none";
+
+    viewHighScoreEl.style.display = "none";
     introEl.style.display = "block";
     secondsLeft = 100;
     timeEl.textContent =  "Time: " + secondsLeft;
@@ -230,13 +236,13 @@ clearBtn.addEventListener("click", clearScore);
 
 //view high score button
 viewHighScoreBtn.addEventListener("click", function(){
-    if (viewHighScore.style.display === " none "){
-        viewHighScore.style.display === " block ";
-    } else if (viewHighScore.style.display === " block "){
-        viewHighScore.style.display === " none "
+    if (viewHighScoreEl.setAttribute("style", "display: none")){
+        viewHighScoreEl.setAttribute("style", "display: block");
+    } else if (viewHighScoreEl.setAttribute("style", "display: block")){
+        viewHighScoreEl.setAttribute("style", "display: none");
     }
     else{
-        return alert (" There are no score to display.")
+        return alert (" There are no score to display.");
     }
 
 })

@@ -33,7 +33,7 @@ p{
 
 .btn{
     
-    color: white;
+    color: #251897;
     font-size: 1.2rem;
     padding: 16px 32px;
     text-align: center;
@@ -45,13 +45,13 @@ p{
     cursor: pointer;
     font-weight: bold;
 }
-.btn{
+/* .btn{
     background-color: white;
     color: black;
     border: 2px solid #e7e7e7;
-  }
+  } */
   
   .btn:hover {
-    background-color: #e7e7e7;
+    background-color: #5ce79f;
     
 }
