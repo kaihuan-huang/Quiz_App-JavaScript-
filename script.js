@@ -2,13 +2,13 @@
 //time && scores
 var timeEl = document.getElementById("show-timer");
 var secondsLeft = 100;
-var scoreEl = document.getElementById("view-score");
+var viewHighScoreBtn = document.getElementById("view-score");
 
 //Start
 var introEl = document.querySelector("#intro");
 
 //questions
-var questionsEl = document.querySelectorAll("section#qusetions");
+var questionsEl = document.querySelector("#questions");
 var questionEl = document.getElementById("question");
 let questionCount = 0;
 
@@ -25,12 +25,13 @@ var clearScore = document.getElementById("clearscores");
 var scoreList = [];
 
 //final section
-var finalEl = document.querySelectorAll("section#final");
+var finalEl = document.querySelector("#final");
+var viewHighScoreEl = document.querySelector("#high-scores");
 
 
 //buttons
 var StartBtn = document.getElementById("start");
-var ansBtn = document.querySelectorAll("button.ansBtn");
+var ansBtn = document.querySelectorAll(".ansBtn");
 var ans1Btn = document.getElementById("answer1");
 var ans2Btn = document.getElementById("answer2");
 var ans3Btn = document.getElementById("answer3");
@@ -48,31 +49,31 @@ const questions = [ // array of objects
         // question 0
         question: "Commonly used data types do NOT include:",
         answers: ["1. strings", "2. booleans", "3. alerts", "4. numbers"],
-        correctAnswer: "2"
+        correctAnswer: "3"
     },
     {
         // question 1
         question: "The condition in an if / else statement is enclosed within ____.",
         answers: ["1. quotes", "2. curly brackets", "3. parentheses", "4. square brackets"],
-        correctAnswer: "1"
+        correctAnswer: "3"
     },
     {
         // question 2
         question: "Arrays in Javascript can be used to store ____.",
         answers: ["1. numbers and strings", "2. other arrays", "3. booleans", "4. all of the above"],
-        correctAnswer: "3"
+        correctAnswer: "4"
     },
     {
         // question 3
         question: "String values must be enclosed within ____ when being assigned to variables.",
         answers: ["1. commmas", "2. curly brackets", "3. quotes", "4. parentheses"],
-        correctAnswer: "2"
+        correctAnswer: "3"
     },
     {
         // question 4
         question: "A very useful tool used during development and debugging for printing content to the debugger is:",
         answers: ["1. Javascript", "2. terminal/bash", "3. for loops", "4. console.log"],
-        correctAnswer: "3"
+        correctAnswer: "4"
     }
 ];
 
@@ -94,7 +95,8 @@ function setTime() {
 
 //Start quiz with timer and set up questions:
 function startQuiz() {
-
+    finalEl.setAttribute("style", "display: none");
+    viewHighScoreEl.setAttribute("style", "display: none");
     questionsEl.setAttribute("style", "display: block");
     questionCount = 0;
 
@@ -102,16 +104,19 @@ function startQuiz() {
     setQuestions(questionCount);
 }
 
-// console.log(questions.length);
+console.log(questions.length);
 
 //function to set questions: to count && show next questions
 function setQuestions(id){
-    if (id < questions.length)
-    questionEl.textContent = questions[id].question;
-    ans1Btn.textContent = questions[id].answers[0];
-    ans2Btn.textContent = questions[id].answers[1];
-    ans3Btn.textContent = questions[id].answers[2];
-    ans4Btn.textContent = questions[id].answers[3];
+    if (id < questions.length-1){
+        questionEl.textContent = questions[id].question;
+        ans1Btn.textContent = questions[id].answers[0];
+        ans2Btn.textContent = questions[id].answers[1];
+        ans3Btn.textContent = questions[id].answers[2];
+        ans4Btn.textContent = questions[id].answers[3];
+
+    }
+    
 }
 
 
@@ -119,36 +124,38 @@ function setQuestions(id){
 function checkAnswer(event){
     event.preventDefault();
 
+    console.log( event.target.getAttribute("data-value"));
     //append show-result
-    showResult.style.display = "block";
-    let show = document.createElement("show");
-    show.appendChild(show);
-
-    //time-out 
-    setTimeOut(function(){
-        showResult.style.display = "none";
-    }, 1000);
-
+    showResult.setAttribute("style", "display: block");
+    let result = document.createElement("div");
+    
     //answer checker
-    if (questions[questionCount].correctAnswer === event.target.value){
-        show.textContent = "Correct!";
+    if (questions[questionCount].correctAnswer ===  event.target.getAttribute("data-value")){
+        result.textContent = "Correct!";
     }else {
-        show.textContent = "Wrong!";
+        result.textContent = "Wrong!";
     }
+   
+
+    showResult.appendChild(result);
+
     //increament questions
     if (questionCount < questions.length){
         questionCount++;
     }
 
+
+
     //call function to bring any ansBtn is cliked
     setQuestions(questionCount);
 }
 
+
 function addScore(event){
     event.preventDefault();
 
-    finalEl.style.display === "none";
-    viewHighScore.style.display = "block";
+    finalEl.setAttribute("style", "display: none");
+    viewHighScore.setAttribute("style", "display: block");
 
     var init = initialInput.value.toUpperCase();
     scoreList.push({ initials: init, score: secondsLeft });
@@ -173,8 +180,6 @@ function addScore(event){
     storeScores();
 }
 
-var viewHighScore = document.querySelectorAll("hight-scores");
-let viewHighScoreBtn = viewHighScore;
 
 
 //clear score
@@ -235,4 +240,4 @@ viewHighScoreBtn.addEventListener("click", function(){
     }
 
 })
-viewHighScoreBtn();
+
