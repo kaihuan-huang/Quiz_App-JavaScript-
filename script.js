@@ -1,6 +1,6 @@
 //variables
 //time && scores
-var timeEl = document.getElementById("how-timer");
+var timeEl = document.getElementById("show-timer");
 var secondsLeft = 100;
 var scoreEl = document.getElementById("view-score");
 
@@ -20,10 +20,8 @@ var initialInput = document.getElementById("initials")
 
 
 //scores-list array
-
-
 var scoreList = document.getElementById("scores-list");
-
+var clearScore = document.getElementById("clearscores");
 var scoreList = [];
 
 //final section
@@ -83,11 +81,12 @@ const questions = [ // array of objects
 function setTime() {
     let timerInterval = setInterval(function () {
         secondsLeft--;
-        timeEl.textContent = `Time:${secondsLeft}s`;
+        timeEl.textContent = "Time: "+secondsLeft;
 
         if (secondsLeft === 0 || questionCount === questions.length) {
             clearInterval(timerInterval);
-            finalEl.style.display = "block";
+            questionsEl.setAttribute("style", "display: none");
+            finalEl.setAttribute("style", "display: block");
             scoreEl.textContent = secondsLeft;
         }
     }, 1000);
@@ -95,7 +94,8 @@ function setTime() {
 
 //Start quiz with timer and set up questions:
 function startQuiz() {
-    questionsEl.style.display = "block";
+
+    questionsEl.setAttribute("style", "display: block");
     questionCount = 0;
 
     setTime();
@@ -174,7 +174,8 @@ function addScore(event){
 }
 
 var viewHighScore = document.querySelectorAll("hight-scores");
-var viewHighScoreBtn =
+let viewHighScoreBtn = viewHighScore;
+
 
 //clear score
 function clearScore(){
@@ -200,7 +201,6 @@ function displayScore(){
 
 //Eventlisteners
 //start quiz && timer && first question
-
 StartBtn.addEventListener("click", startQuiz);
 
 //ansBtn
@@ -224,7 +224,7 @@ goBackBtn.addEventListener("click", function(){
 clearBtn.addEventListener("click", clearScore);
 
 //view high score button
-viewHighScore.addEventListener("click", function(){
+viewHighScoreBtn.addEventListener("click", function(){
     if (viewHighScore.style.display === " none "){
         viewHighScore.style.display === " block ";
     } else if (viewHighScore.style.display === " block "){
@@ -233,9 +233,6 @@ viewHighScore.addEventListener("click", function(){
     else{
         return alert (" There are no score to display.")
     }
-    
-
-
 
 })
-
+viewHighScoreBtn();
