@@ -53,5 +53,13 @@ p{
   
   .btn:hover {
     background-color: #5ce79f;
-    
+
+}
+
+.hide{
+    display: none;
+}
+
+.show{
+    display: block;
 }

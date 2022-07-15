@@ -23,7 +23,7 @@ var initialInput = document.getElementById("initials");
 
 //scores-list array
 var scoreListEl = document.getElementById("scores-list");
-var clearScore = document.getElementById("clearscores");
+var clearScoreEl = document.getElementById("clearscores");
 var scoreList = [];
 
 //final section
@@ -82,25 +82,27 @@ const questions = [ // array of objects
 //functions:
 //timer
 function setTime() {
-        timerInterval = setInterval(function () {
+        timer = setInterval(function () {
         secondsLeft--;
         timeEl.textContent = "Time: "+secondsLeft;
 
         if (secondsLeft === 0 || questionCount === questions.length) {
-            clearInterval(timerInterval);
-            introEl.setAttribute("style", "display: none");
-            questionsEl.setAttribute("style", "display: none");
-            finalEl.setAttribute("style", "display: block");
+            clearInterval(timer);
+            introEl.setAttribute("class","hide");
+            questionsEl.setAttribute("class","hide");
+            finalEl.setAttribute("class","show");
             scoreEl.textContent = secondsLeft;
         }
     }, 1000);
 }
 
+
 //Start quiz with timer and set up questions:
 function startQuiz() {
-    finalEl.setAttribute("style", "display: none");
-    viewHighScoreEl.setAttribute("style", "display: none");
-    questionsEl.setAttribute("style", "display: block");
+    introEl.setAttribute("class","hide");
+    finalEl.setAttribute("class","hide");
+    viewHighScoreEl.setAttribute("class","hide");
+    questionsEl.setAttribute("class","show");
     questionCount = 0;
 
     setTime();
@@ -125,21 +127,22 @@ function setQuestions(id){
 function checkAnswer(event){
     event.preventDefault();
 
-    console.log( event.target.getAttribute("data-value"));
+    console.log(event.target.getAttribute("data-value"));
     //append show-result
     
-    showResult.setAttribute("style", "display: block");
+    showResult.setAttribute("class","show");
     let result = document.createElement("div");
     
+    console.log(questionCount);
     //answer checker
     if (questions[questionCount].correctAnswer ===  event.target.getAttribute("data-value")){
         result.textContent = "Correct!";
     }else {
         result.textContent = "Wrong!";
+        secondsLeft -= 10;
     }
-   
-
     showResult.appendChild(result);
+    
 
     //increament questions
     if (questionCount < questions.length){
@@ -149,24 +152,24 @@ function checkAnswer(event){
         clearInterval(timer);
         score = secondsLeft;
         scoreEl.textContent = score;
+        return;
     }
-
-
 
     //call function to bring any ansBtn is cliked
     setQuestions(questionCount);
 }
+
 function addScore(event){
     event.preventDefault();
 
-    finalEl.setAttribute("style", "display: none");
-    viewHighScoreEl.setAttribute("style", "display: block");
+    finalEl.setAttribute("class","hide");
+    viewHighScoreEl.setAttribute("class", "shows");
 
     var init = initialInput.value.toUpperCase();
     scoreList.push({ initials: init, score: secondsLeft });
 
         //sort max scores
-    scoreList = scoreList.sort((a , b)=>{
+    scoreList.sort((a , b)=>{
         if (a.score < b.score){
             return 1;
         }else{
@@ -174,7 +177,7 @@ function addScore(event){
         }
     });
 
-    scoreList.innerHTML = " ";
+    scoreList.innerHTML = "";
     for (var i = 0; i < scoreList.length; i++ ){
         var li = document.createElement("li");
         li.textContent = `${scoreList[i].initials} : ${ scoreList[i].score}`;
@@ -183,14 +186,6 @@ function addScore(event){
 
     //Add to local storage
     storeScores();
-}
-
-
-
-//clear score
-function clearScore(){
-    scoreList.clear();
-    scoreListEl.textContent = " ";
 }
 
 function storeScores(){
@@ -232,18 +227,15 @@ goBackBtn.addEventListener("click", function(){
 });
 
 //clear score
-clearBtn.addEventListener("click", clearScore);
+// clearBtn.addEventListener("click", clearScoreEl);
+clearBtn.addEventListener("click", function(){
+    localStorage.removeItem("scoreList");
+    scoreListEl.innerHTML = "";
+    console.log('abc');
+});
 
 //view high score button
 viewHighScoreBtn.addEventListener("click", function(){
-    if (viewHighScoreEl.setAttribute("style", "display: none")){
-        viewHighScoreEl.setAttribute("style", "display: block");
-    } else if (viewHighScoreEl.setAttribute("style", "display: block")){
-        viewHighScoreEl.setAttribute("style", "display: none");
-    }
-    else{
-        return alert (" There are no score to display.");
-    }
-
+    viewHighScoreEl.setAttribute("class","show");
 })
 
