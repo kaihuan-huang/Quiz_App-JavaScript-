@@ -12,7 +12,7 @@ var introEl = document.querySelector("#intro");
 var questionsEl = document.querySelector("#questions");
 var questionEl = document.getElementById("question");
 let questionCount = 0;
-
+var correctAnswer = document.querySelector(".ansBtn");
 var showResult = document.getElementById("show-result");
 
 //Initial score
@@ -137,16 +137,17 @@ function checkAnswer(event){
     //answer checker
     if (questions[questionCount].correctAnswer ===  event.target.getAttribute("data-value")){
         result.textContent = "Correct!";
-    }else {
+    }else if(questions[questionCount].correctAnswer !== event.target.value){
         result.textContent = "Wrong!";
         secondsLeft -= 10;
     }
-    showResult.appendChild(result);
-    
+       
+    showResult.append(result);
 
     //increament questions
     if (questionCount < questions.length){
         questionCount++;
+        
     }else{
         //stop timer
         clearInterval(timer);
