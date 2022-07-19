@@ -24,7 +24,7 @@ Mock-up
 
 The following images demonstrate the web application's appearance:
 
-![Start Page](images/Start-Section.png);
-![Question Page](images/Question-section.png);
-![Submit && Go-back Page](images/FInalScore-cleanbutton-restart.png).
+![Start Page](images/Start-Section.png)
+![Question Page](images/Question-section.png)
+![Submit && Go-back Page](images/FInalScore-cleanbutton-restart.png)
 ---
